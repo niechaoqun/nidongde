@@ -40,7 +40,7 @@ class RF_Main_Process(object):
     def save_train_data_to_csv(self, train_data):
         train_data.to_csv('%s/%s.csv' % (self._model_dir, self._model_name))
 
-    def save_feature_importance(self):
+    def save_feature_importance(self, acc):
 
         feature_names = np.array([ i.replace('pixel', 'x') for i in self._test_x.columns.tolist()])
         # Plot feature importance
@@ -68,6 +68,7 @@ class RF_Main_Process(object):
         plt.savefig('%s/%s.jpg' % (self._model_dir, self._model_name))
 
         with open('%s/%s_feature_importance.txt' % (self._model_dir, self._model_name), 'w') as f:
+            f.write('model_acc:%s\n' % acc)
             for i in sorted_idx:
                 f.write('%s:%s\n' % (feature_names[i], feature_importance[i]))
 
@@ -98,11 +99,11 @@ class RF_Main_Process(object):
             self._rst_processor.parse_smt_resultFile(self._pic_dir)
 
 
-    def process_mnist_robust(self, is_reduce):
+    def process_mnist_robust(self, is_reduce, acc):
 
         self.save_model()
 
-        self.save_feature_importance()
+        self.save_feature_importance(acc)
 
         for i in range(len(self._test_x)):
         # for i in [82, 94, 61, 77, 98, 20, 99, 60, 9, 95, 67, 26, 84, 47, 11, 50, 93, 70, 66, 0, 73, 69, 87, 91, 29, 64, 43, 96, 80, 59, 62, 74, 7, 81, 97, 54]:

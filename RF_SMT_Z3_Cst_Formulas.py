@@ -272,7 +272,7 @@ import matplotlib.pyplot as plt\n""")
         file_lines.append('s = Solver()\n')
 
         # 添加 最小核缩减
-        # file_lines.append('s.set("sat.core.minimize",True)')
+        file_lines.append('s.set("sat.core.minimize",True)')
 
         #去除路径公式中的节点冗余
         total_feature = list(set(total_feature))
