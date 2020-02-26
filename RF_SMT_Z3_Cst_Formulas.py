@@ -27,7 +27,6 @@ class RF_SMT_Z3(object):
         self._smtFileName = None
         self._smt_result_file_name = None
 
-        
 
     def set_test_sample_info(self, org_data=None, org_class=None, epsilon=None, delta=None, model_name=None):
 
@@ -272,7 +271,7 @@ import matplotlib.pyplot as plt\n""")
         file_lines.append('s = Solver()\n')
 
         # 添加 最小核缩减
-        file_lines.append('s.set("sat.core.minimize",True)')
+        # file_lines.append('s.set("sat.core.minimize",True)')
 
         #去除路径公式中的节点冗余
         total_feature = list(set(total_feature))
@@ -330,7 +329,7 @@ import matplotlib.pyplot as plt\n""")
                 file_lines.append('or_%s = Or(%s)'%(r, ','.join(ands)))
 
             # 添加对决策树的变量追踪
-            file_lines.append("s.assert_and_track(or_{0}, 'tree_{0}')".format(r))
+            # file_lines.append("s.assert_and_track(or_{0}, 'tree_{0}')".format(r))
 
         # 特征值的扰动约束值的处理应该修改成绝对值的形式： real 类型
         # 特征值的扰动约束值的处理应该修改成集合的形式：int 类型

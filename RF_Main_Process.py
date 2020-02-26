@@ -92,32 +92,44 @@ class RF_Main_Process(object):
 
             os.system('python3 %s'%verify_file)
 
-            result_file = self._smt.get_smt_verify_result_file()
+            # result_file = self._smt.get_smt_verify_result_file()
             
-            self._rst_processor.set_info(result_file, 8)
+            # self._rst_processor.set_info(result_file, 8)
 
-            self._rst_processor.parse_smt_resultFile(self._pic_dir)
+            # self._rst_processor.parse_smt_resultFile(self._pic_dir)
 
 
-    def process_mnist_robust(self, is_reduce, acc):
+    def process_mnist_robust(self, class_num, is_reduce, acc):
 
         self.save_model()
 
         self.save_feature_importance(acc)
 
-        for i in range(len(self._test_x)):
+        correct_num = 0 # 记录模型预测正确的样本数
+        total_num = 0 #记录模型测试样本数
+
+        for i in range(class_num*1000, class_num*1000+1000):
         # for i in [82, 94, 61, 77, 98, 20, 99, 60, 9, 95, 67, 26, 84, 47, 11, 50, 93, 70, 66, 0, 73, 69, 87, 91, 29, 64, 43, 96, 80, 59, 62, 74, 7, 81, 97, 54]:
         # for i in [82]:
-            
+            if correct_num == 100 or total_num >= 999:
+                break
+
             t_x = self._test_x.iloc[i, :].values.reshape(1, -1)
             t_y = self._tesy_y.iloc[i]
+
+            org_predict = self._clf.predict(t_x)[0]
+
+            if  t_y==class_num:
+                total_num +=1
+
+            if  t_y!=class_num and org_predict != t_y:
+                continue
 
             self._formular_extracter.set_sample(t_x)
             self._formular_extracter.set_is_add_reduce(is_reduce)
             regression_formulas = self._formular_extracter.get_decision_tree_formulas(t_x)
 
-            org_predict = self._clf.predict(t_x)[0]
-
+            
             self._smt.set_test_sample_info(org_data=t_x, org_class=t_y, epsilon=self._epsilon, model_name=self._model_name)
             self._smt.solve_formula_robust(regression_formulas, org_predict)
 
@@ -125,12 +137,13 @@ class RF_Main_Process(object):
 
             os.system('python3 %s'%verify_file)
 
-            result_file = self._smt.get_smt_verify_result_file()
+            # result_file = self._smt.get_smt_verify_result_file()
             
-            self._rst_processor.set_info(result_file, 28)
+            # self._rst_processor.set_info(result_file, 28)
 
-            self._rst_processor.parse_robust_resultFile(org_predict)
-            # break
+            # self._rst_processor.parse_robust_resultFile(org_predict)
+
+            correct_num +=1 
 
     def process_mnist_counter(self):
         self.save_model()

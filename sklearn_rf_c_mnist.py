@@ -33,8 +33,8 @@ if __name__ == "__main__":
     # 划分训练集 和测试集
     # X_train, X_test, y_train, y_test = train_test_split(
     #     X, y, train_size=train_samples, test_size=1000)
-    for j in [100]:
-        for i in [10]:
+    for j in [50]:
+        for i in [7, 10]:
             num_estimators = j
             num_max_depth = i
             robust_epsilon = 1
@@ -67,7 +67,8 @@ if __name__ == "__main__":
             # # # main.process_mnist_counter()
 
             is_recude = False
-            main.process_mnist_robust(is_recude, score)
+            for class_num in range(10):
+                main.process_mnist_robust(class_num, is_recude, score)
 
             # 验证鲁棒性
 
