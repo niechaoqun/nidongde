@@ -60,12 +60,12 @@ class RF_Main_Process(object):
         # print(type(reduce_sorted_idx))
         pos = np.arange(reduce_sorted_idx.shape[0]) + .5
 
-        plt.barh(pos, feature_importance[reduce_sorted_idx], align='center')
-        plt.yticks(pos, feature_names[reduce_sorted_idx])
-        plt.xlabel('Relative Importance')
-        plt.title('Variable Importance')
+        # plt.barh(pos, feature_importance[reduce_sorted_idx], align='center')
+        # plt.yticks(pos, feature_names[reduce_sorted_idx])
+        # plt.xlabel('Relative Importance')
+        # plt.title('Variable Importance')
         # plt.show()
-        plt.savefig('%s/%s.jpg' % (self._model_dir, self._model_name))
+        # plt.savefig('%s/%s.jpg' % (self._model_dir, self._model_name))
 
         with open('%s/%s_feature_importance.txt' % (self._model_dir, self._model_name), 'w') as f:
             f.write('model_acc:%s\n' % acc)
