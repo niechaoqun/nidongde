@@ -33,7 +33,7 @@ if __name__ == "__main__":
     #     X, y, train_size=train_samples, test_size=1000)
     for j in [20]:
         for i in [3, 8, 10]:
-            for e in [3, 5]
+            for e in [3, 5]:
                 num_estimators = j
                 num_max_depth = i
                 robust_epsilon = e
