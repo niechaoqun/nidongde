@@ -98,6 +98,36 @@ class RF_Main_Process(object):
 
             # self._rst_processor.parse_smt_resultFile(self._pic_dir)
 
+    def process_mnist_robust_test(self, is_reduce, acc):
+
+        self.save_model()
+
+        self.save_feature_importance(acc)
+
+        for i in range(len(self._test_x)):
+
+            t_x = self._test_x.iloc[i, :].values.reshape(1, -1)
+            t_y = self._tesy_y.iloc[i]
+
+            org_predict = self._clf.predict(t_x)[0]
+
+            self._formular_extracter.set_sample(t_x)
+            self._formular_extracter.set_is_add_reduce(is_reduce)
+            regression_formulas = self._formular_extracter.get_decision_tree_formulas(t_x)
+
+            self._smt.set_test_sample_info(org_data=t_x, org_class=t_y, epsilon=self._epsilon, model_name=self._model_name)
+            self._smt.solve_formula_robust(regression_formulas, org_predict)
+
+            verify_file = self._smt.get_smt_verify_pyFile_name()
+
+            os.system('python3 %s'%verify_file)
+
+            # result_file = self._smt.get_smt_verify_result_file()
+            
+            # self._rst_processor.set_info(result_file, 28)
+
+            # self._rst_processor.parse_robust_resultFile(org_predict)
+
 
     def process_mnist_robust(self, class_num, is_reduce, acc):
 
