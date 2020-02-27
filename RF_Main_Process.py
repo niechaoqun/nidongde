@@ -42,23 +42,23 @@ class RF_Main_Process(object):
 
     def save_feature_importance(self, acc):
 
-        feature_names = np.array([ i.replace('pixel', 'x') for i in self._test_x.columns.tolist()])
-        # Plot feature importance
-        feature_importance = self._clf.feature_importances_
-        # make importances relative to max importance
-        feature_importance = 100.0 * (feature_importance / feature_importance.max())
-        sorted_idx = np.argsort(feature_importance)
+        # feature_names = np.array([ i.replace('pixel', 'x') for i in self._test_x.columns.tolist()])
+        # # Plot feature importance
+        # feature_importance = self._clf.feature_importances_
+        # # make importances relative to max importance
+        # feature_importance = 100.0 * (feature_importance / feature_importance.max())
+        # sorted_idx = np.argsort(feature_importance)
 
-        reduce_sorted_idx_list = []
-        for i in sorted_idx:
-            if feature_importance[i] >0:
-                reduce_sorted_idx_list.append(i)
-        tmp = reduce_sorted_idx_list[:30]
+        # reduce_sorted_idx_list = []
+        # for i in sorted_idx:
+        #     if feature_importance[i] >0:
+        #         reduce_sorted_idx_list.append(i)
+        # tmp = reduce_sorted_idx_list[:30]
 
-        reduce_sorted_idx = np.array(tmp).reshape(len(tmp),)
-        # print(reduce_sorted_idx)
-        # print(type(reduce_sorted_idx))
-        pos = np.arange(reduce_sorted_idx.shape[0]) + .5
+        # reduce_sorted_idx = np.array(tmp).reshape(len(tmp),)
+        # # print(reduce_sorted_idx)
+        # # print(type(reduce_sorted_idx))
+        # pos = np.arange(reduce_sorted_idx.shape[0]) + .5
 
         # plt.barh(pos, feature_importance[reduce_sorted_idx], align='center')
         # plt.yticks(pos, feature_names[reduce_sorted_idx])
@@ -67,10 +67,10 @@ class RF_Main_Process(object):
         # plt.show()
         # plt.savefig('%s/%s.jpg' % (self._model_dir, self._model_name))
 
-        with open('%s/%s_feature_importance.txt' % (self._model_dir, self._model_name), 'w') as f:
+        with open('%s/%s_score.txt' % (self._model_dir, self._model_name), 'w') as f:
             f.write('model_acc:%s\n' % acc)
-            for i in sorted_idx:
-                f.write('%s:%s\n' % (feature_names[i], feature_importance[i]))
+            # for i in sorted_idx:
+            #     f.write('%s:%s\n' % (feature_names[i], feature_importance[i]))
 
 
     def process_digits(self):
